@@ -147,7 +147,7 @@
             <input
               type="datetime-local"
               name="new_expiry_date"
-              value="{{ machine.expiry_date.replace(' ', 'T') }}"
+              value="{{ machine.expiry_date|string if machine.expiry_date else '' }}"
               required
             />
             <button type="submit">💾 Lưu</button>
