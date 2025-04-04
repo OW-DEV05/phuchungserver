@@ -119,8 +119,15 @@ def add_machine():
 @app.route('/allowed_machines', methods=['GET'])
 def get_allowed_machines():
     now = datetime.now()
-    valid_machines = AllowedMachine.query.filter(AllowedMachine.expiry_date >= now.strftime('%Y-%m-%d %H:%M')).all()
-    return jsonify([{'hostname': m.hostname, 'mac': m.mac, 'expiry_date': m.expiry_date} for m in valid_machines])
+    valid_machines = AllowedMachine.query.filter(AllowedMachine.expiry_date >= now).all()
+
+    return jsonify([
+        {
+            'hostname': m.hostname,
+            'mac': m.mac,
+            'expiry_date': m.expiry_date.strftime('%Y-%m-%d %H:%M')  # Chuyển về đúng format
+        } for m in valid_machines
+    ])
 
 @app.route('/delete_machine/<mac>', methods=['GET'])
 def delete_machine(mac):
